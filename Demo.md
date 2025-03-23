@@ -124,6 +124,11 @@ video_path = "Bakemonogatari E05___278.mp4"
 difference = calculate_frame_difference(video_path)
 print(f"第一帧和最后一帧的差异值: {difference}")
 
+out_df["diff_score"] = out_df["video"].map(calculate_frame_difference)
+
+out_df[
+out_df.apply(lambda x: x["diff_score"] != "error" and x["diff_score"] < 0.5, axis = 1)
+].sort_values("diff_score", ascending = False)
 
 os.makedirs("eye", exist_ok=True)
 for i, r in out_df.iterrows():
