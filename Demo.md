@@ -47,6 +47,9 @@ frames_view.add_embedding_index('frame', image_embed=clip.using(model_id = 'open
 
 # Now we will retrieve images based on a sample image
 sample_image = '战场原.webp'
+from PIL import Image
+sample_image = Image.open(sample_image)
+
 sim = frames_view.frame.similarity(sample_image)
 frames_view.order_by(sim, asc=False).limit(5).select(frames_view.frame, sim=sim).collect()
 ```
