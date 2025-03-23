@@ -74,6 +74,7 @@ frames_view.add_embedding_index('frame',
                                 image_embed=clip.using(model_id = 'openai/clip-vit-base-patch32'))
 frames_view
 
+#### landscape with no one / big eye
 sim = frames_view.frame.similarity("landscape with no one")
 out = frames_view.order_by(sim, asc=False).limit(50).select(frames_view.frame, frames_view.video, sim=sim).collect()
 out
