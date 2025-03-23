@@ -10,6 +10,7 @@ pip install pixeltable
 git clone https://huggingface.co/spaces/svjack/Text-image-similarity-search-on-video-frames-embedding-indexes
 cd Text-image-similarity-search-on-video-frames-embedding-indexes
 pip install -r requirement.txt
+pip install transformers==4.49.0
 python app.py
 
 git clone https://huggingface.co/datasets/svjack/Bakemonogatari_Videos_Splited_Captioned
