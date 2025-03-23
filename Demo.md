@@ -86,6 +86,45 @@ out
 import os 
 import shutil
 out_df = out.to_pandas()
+
+#### pip install moviepy==1.0.3 scikit-image
+
+#### 0-1 值越小差异越小
+from moviepy.editor import VideoFileClip
+import numpy as np
+from skimage.metrics import structural_similarity as ssim
+
+def calculate_frame_difference(video_path):
+    # 加载视频
+    clip = VideoFileClip(video_path)
+    
+    # 获取第一帧和最后一帧
+    first_frame = clip.get_frame(0)
+    try:
+        last_frame = clip.get_frame(clip.duration - 0.01)  # 稍微提前一点以确保获取到最后一帧
+    except:
+        print("err: ", video_path)
+        return "error"
+    
+    # 将帧转换为灰度图像
+    first_frame_gray = np.mean(first_frame, axis=2)
+    last_frame_gray = np.mean(last_frame, axis=2)
+    
+    # 计算两帧之间的结构相似性 (SSIM)，并指定 data_range
+    data_range = 1.0  # 因为 np.mean 的结果是归一化的浮点数，范围是 0-1
+    ssim_value, _ = ssim(first_frame_gray, last_frame_gray, full=True, data_range=data_range)
+    
+    # 将 SSIM 值映射到 0-1 之间 (SSIM 已经在 0-1 之间，因此可以直接使用)
+    difference = 1 - ssim_value
+    
+    return difference
+
+# 示例使用
+video_path = "Bakemonogatari E05___278.mp4"
+difference = calculate_frame_difference(video_path)
+print(f"第一帧和最后一帧的差异值: {difference}")
+
+
 os.makedirs("eye", exist_ok=True)
 for i, r in out_df.iterrows():
     shutil.copy2(r["video"], os.path.join("eye", r["video"].split("/")[-1]))
