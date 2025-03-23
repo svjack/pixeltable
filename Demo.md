@@ -81,7 +81,7 @@ out
 
 
 sim = frames_view.frame.similarity("big eye")
-out = frames_view.order_by(sim, asc=False).limit(50).select(frames_view.frame, frames_view.video, sim=sim).collect()
+out = frames_view.order_by(sim, asc=False).limit(250).select(frames_view.frame, frames_view.video, sim=sim).collect()
 out
 import os 
 import shutil
@@ -127,6 +127,10 @@ print(f"第一帧和最后一帧的差异值: {difference}")
 out_df["diff_score"] = out_df["video"].map(calculate_frame_difference)
 
 out_df[
+out_df.apply(lambda x: x["diff_score"] != "error" and x["diff_score"] < 0.5, axis = 1)
+].sort_values("diff_score", ascending = False)
+
+out_df = out_df[
 out_df.apply(lambda x: x["diff_score"] != "error" and x["diff_score"] < 0.5, axis = 1)
 ].sort_values("diff_score", ascending = False)
 
