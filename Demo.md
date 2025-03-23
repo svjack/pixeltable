@@ -1,3 +1,5 @@
+# Installtion
+
 ```bash
 sudo apt-get update && sudo apt-get install git-lfs ffmpeg cbm
 
@@ -19,6 +21,7 @@ cp -r Bakemonogatari_Videos_Splited_Captioned/video0/* Bakemonogatari_Videos_Spl
 cp -r Bakemonogatari_Videos_Splited_Captioned/video00/* Bakemonogatari_Videos_Splited_Captioned_Total
 ```
 
+# Person
 ```python
 import pixeltable as pxt
 from pixeltable.functions.huggingface import clip
@@ -61,4 +64,17 @@ sample_image = Image.open(sample_image)
 sim = frames_view.frame.similarity(sample_image)
 out = frames_view.order_by(sim, asc=False).limit(5).select(frames_view.frame, frames_view.video, sim=sim).collect()
 out.to_pandas()["video"].values.tolist()
+```
+
+# Landscape
+```python
+# Create an index on the 'frame' column that allows text and image search
+frames_view.add_embedding_index('frame', 
+                                string_embed=clip.using(model_id = 'openai/clip-vit-base-patch32'),
+                                image_embed=clip.using(model_id = 'openai/clip-vit-base-patch32'))
+frames_view
+
+sim = frames_view.frame.similarity("landscape with no one")
+out = frames_view.order_by(sim, asc=False).limit(50).select(frames_view.frame, frames_view.video, sim=sim).collect()
+out
 ```
