@@ -78,4 +78,16 @@ frames_view
 sim = frames_view.frame.similarity("landscape with no one")
 out = frames_view.order_by(sim, asc=False).limit(50).select(frames_view.frame, frames_view.video, sim=sim).collect()
 out
+
+
+sim = frames_view.frame.similarity("big eye")
+out = frames_view.order_by(sim, asc=False).limit(50).select(frames_view.frame, frames_view.video, sim=sim).collect()
+out
+import os 
+import shutil
+out_df = out.to_pandas()
+os.makedirs("eye", exist_ok=True)
+for i, r in out_df.iterrows():
+    shutil.copy2(r["video"], os.path.join("eye", r["video"].split("/")[-1]))
+    shutil.copy2(r["video"].replace(".mp4", ".txt"), os.path.join("eye", r["video"].split("/")[-1]).replace(".mp4", ".txt"))
 ```
