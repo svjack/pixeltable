@@ -52,4 +52,12 @@ sample_image = Image.open(sample_image)
 
 sim = frames_view.frame.similarity(sample_image)
 frames_view.order_by(sim, asc=False).limit(5).select(frames_view.frame, sim=sim).collect()
+
+sample_image = '战场原.webp'
+from PIL import Image
+sample_image = Image.open(sample_image)
+
+sim = frames_view.frame.similarity(sample_image)
+out = frames_view.order_by(sim, asc=False).limit(5).select(frames_view.frame, frames_view.video, sim=sim).collect()
+out.to_pandas()["video"].values.tolist()
 ```
