@@ -11,7 +11,7 @@ python -m ipykernel install --user --name py310 --display-name "py310"
 pip install pixeltable
 git clone https://huggingface.co/spaces/svjack/Text-image-similarity-search-on-video-frames-embedding-indexes
 cd Text-image-similarity-search-on-video-frames-embedding-indexes
-pip install -r requirement.txt
+pip install -r requirements.txt
 pip install transformers==4.49.0
 python app.py
 
